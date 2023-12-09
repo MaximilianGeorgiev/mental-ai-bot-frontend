@@ -44,6 +44,12 @@ export class AuthDialog {
   }
 
   onSubmit(): void {
-    this.data.displayLoginForm ? login({ username: this.data.username, password: this.data.password }) : undefined;
+    console.log("errs " + this.usernameFormContorl.hasError("required"));
+
+    if (this.usernameFormContorl.hasError("required") || this.passwordFormControl.hasError("required")) {
+      // TO DO: Add toast
+    } else {
+      this.data.displayLoginForm ? login({ username: this.data.username, password: this.data.password }) : undefined;
+    }
   }
 }
