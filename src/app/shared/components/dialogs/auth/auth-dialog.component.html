@@ -1,0 +1,41 @@
+<div *ngIf="data.displayLoginForm; else displayRegisterForm">
+  <h1 mat-dialog-title>Login</h1>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>E-mail address</mat-label>
+      <input matInput [(ngModel)]="data.email" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput [(ngModel)]="data.password" />
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button>Close</button>
+    <button mat-button cdkFocusInitial>Login</button>
+  </div>
+</div>
+
+<ng-template #displayRegisterForm>
+  <div>
+    <h1 mat-dialog-title>Register</h1>
+    <div mat-dialog-content>
+      <mat-form-field>
+        <mat-label>E-mail address</mat-label>
+        <input matInput [(ngModel)]="data.email" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput [(ngModel)]="data.password" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Repeat password</mat-label>
+        <input matInput [(ngModel)]="data.password" />
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button>Close</button>
+      <button mat-button cdkFocusInitial>Register</button>
+    </div>
+  </div>
+</ng-template>
