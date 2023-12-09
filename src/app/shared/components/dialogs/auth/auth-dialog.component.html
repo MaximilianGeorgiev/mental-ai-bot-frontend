@@ -3,11 +3,17 @@
   <div mat-dialog-content>
     <mat-form-field>
       <mat-label>Username</mat-label>
-      <input matInput [(ngModel)]="data.username" />
+      <input matInput [(ngModel)]="data.username" [formControl]="usernameFormContorl" />
+      @if (usernameFormContorl.hasError('required')) {
+      <mat-error>This field is required</mat-error>
+      }
     </mat-form-field>
     <mat-form-field>
       <mat-label>Password</mat-label>
-      <input matInput [(ngModel)]="data.password" />
+      <input type="password" matInput [(ngModel)]="data.password" [formControl]="passwordFormControl"  />
+      @if (passwordFormControl.hasError('required')) {
+        <mat-error>This field is required</mat-error>
+        }
     </mat-form-field>
   </div>
   <div mat-dialog-actions>
