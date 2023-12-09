@@ -2,8 +2,8 @@
   <h1 mat-dialog-title>Login</h1>
   <div mat-dialog-content>
     <mat-form-field>
-      <mat-label>E-mail address</mat-label>
-      <input matInput [(ngModel)]="data.email" />
+      <mat-label>Username</mat-label>
+      <input matInput [(ngModel)]="data.username" />
     </mat-form-field>
     <mat-form-field>
       <mat-label>Password</mat-label>
@@ -12,7 +12,7 @@
   </div>
   <div mat-dialog-actions>
     <button mat-button>Close</button>
-    <button mat-button cdkFocusInitial>Login</button>
+    <button mat-button cdkFocusInitial (click)="onSubmit()">Login</button>
   </div>
 </div>
 
@@ -22,7 +22,7 @@
     <div mat-dialog-content>
       <mat-form-field>
         <mat-label>E-mail address</mat-label>
-        <input matInput [(ngModel)]="data.email" />
+        <input matInput [(ngModel)]="data.username" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Password</mat-label>

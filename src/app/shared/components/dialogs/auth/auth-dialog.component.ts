@@ -5,9 +5,10 @@ import { FormsModule } from "@angular/forms";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { CommonModule } from "@angular/common";
+import { login, register } from "../../../../modules/api/auth";
 
 export interface AuthDialogData {
-  email: string;
+  username: string;
   password: string;
   displayLoginForm: boolean;
 }
@@ -25,5 +26,9 @@ export class AuthDialog {
 
   onClose(): void {
     this.dialogRef.close();
+  }
+
+  onSubmit(): void {
+    this.data.displayLoginForm ? login({ username: this.data.username, password: this.data.password }) : undefined;
   }
 }
