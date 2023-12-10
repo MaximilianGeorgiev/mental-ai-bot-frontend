@@ -7,6 +7,9 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { CommonModule } from "@angular/common";
 import { login, register } from "../../../../modules/api/auth";
 import { ReactiveFormsModule } from "@angular/forms";
+import { ToastService, AngularToastifyModule } from "angular-toastify";
+import { Notifications } from "../../../../enums/notifications.enum";
+import { ApiCallResult } from "../../../../types/auth";
 
 export interface AuthDialogData {
   username: string;
@@ -29,26 +32,29 @@ export interface AuthDialogData {
     MatDialogActions,
     MatDialogClose,
     CommonModule,
+    AngularToastifyModule,
   ],
 })
 export class AuthDialog {
   usernameFormContorl = new FormControl("", [Validators.required]);
   passwordFormControl = new FormControl("", [Validators.required]);
+  displayToast = false;
 
-  constructor(public dialogRef: MatDialogRef<AuthDialog>, @Inject(MAT_DIALOG_DATA) public data: AuthDialogData) {
-    console.log("test " + JSON.stringify(data));
-  }
+  constructor(public dialogRef: MatDialogRef<AuthDialog>, @Inject(MAT_DIALOG_DATA) public data: AuthDialogData, private toastService: ToastService) {}
 
   onClose(): void {
     this.dialogRef.close();
   }
 
   onSubmit(): void {
-    console.log("errs " + this.usernameFormContorl.hasError("required"));
-
     if (this.usernameFormContorl.hasError("required") || this.passwordFormControl.hasError("required")) {
-      // TO DO: Add toast
+      this.toastService.error(Notifications.INVALID_FORM_REQUIRED);
     } else {
+      if (this.data.displayLoginForm) {
+        login({ username: this.data.username, password: this.data.password }).then((response: ApiCallResult) => {
+          response.success ? this.toastService.success(Notifications.LOGIN_SUCCESS) : this.toastService.error(Notifications.LOGIN_FAILURE);
+        });
+      }
       this.data.displayLoginForm ? login({ username: this.data.username, password: this.data.password }) : undefined;
     }
   }

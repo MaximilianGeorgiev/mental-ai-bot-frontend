@@ -16,6 +16,6 @@ export interface RegisterPayload extends LoginPayload {
 }
 
 export interface ApiCallResult {
-  status: boolean;
+  success: boolean;
   message: Object;
 }
