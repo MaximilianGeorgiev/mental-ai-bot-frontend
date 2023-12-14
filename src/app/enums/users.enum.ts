@@ -1,7 +1,7 @@
 export enum Genders {
-  MALE = "male",
-  FEMALE = "female",
-  OTHER = "other",
+  MALE = "Male",
+  FEMALE = "Female",
+  OTHER = "Other",
 }
 
 export enum Activities {

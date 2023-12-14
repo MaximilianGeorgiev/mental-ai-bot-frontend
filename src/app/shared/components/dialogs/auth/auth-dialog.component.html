@@ -11,14 +11,14 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Password</mat-label>
-      <input type="password" matInput [(ngModel)]="data.password" [formControl]="passwordFormControl"  />
+      <input type="password" matInput [(ngModel)]="data.password" [formControl]="passwordFormControl" />
       @if (passwordFormControl.hasError('required')) {
-        <mat-error>This field is required</mat-error>
-        }
+      <mat-error>This field is required</mat-error>
+      }
     </mat-form-field>
   </div>
   <div mat-dialog-actions>
-    <button mat-button>Close</button>
+    <button mat-button mat-dialog-close>Close</button>
     <button mat-button cdkFocusInitial (click)="onSubmit()">Login</button>
   </div>
 </div>
@@ -29,6 +29,10 @@
     <div mat-dialog-content>
       <mat-form-field>
         <mat-label>E-mail address</mat-label>
+        <input matInput [(ngModel)]="data.email" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Username</mat-label>
         <input matInput [(ngModel)]="data.username" />
       </mat-form-field>
       <mat-form-field>
@@ -37,11 +41,48 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Repeat password</mat-label>
-        <input matInput [(ngModel)]="data.password" />
+        <input matInput [(ngModel)]="data.repeatPassword" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Country</mat-label>
+        <input matInput [(ngModel)]="data.country" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>City</mat-label>
+        <input matInput [(ngModel)]="data.city" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Age</mat-label>
+        <input matInput [(ngModel)]="data.age" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Desired goals</mat-label>
+        <mat-select multiple>
+          @for (goal of goalsOptions; track goal) {
+          <mat-option [value]="goal.value">{{ goal.displayValue }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Gender</mat-label>
+        <mat-select>
+          <mat-option></mat-option>
+          @for (gender of genderOptions; track gender) {
+          <mat-option [value]="gender.value">{{ gender.displayValue }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Prefered activities</mat-label>
+        <mat-select multiple>
+          @for (activity of preferedActivitiesOptions; track activity) {
+          <mat-option [value]="activity.value">{{ activity.displayValue }}</mat-option>
+          }
+        </mat-select>
       </mat-form-field>
     </div>
     <div mat-dialog-actions>
-      <button mat-button>Close</button>
+      <button mat-button mat-dialog-close>Close</button>
       <button mat-button cdkFocusInitial>Register</button>
     </div>
   </div>

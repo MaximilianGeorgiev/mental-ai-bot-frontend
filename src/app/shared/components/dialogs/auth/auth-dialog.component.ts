@@ -10,11 +10,27 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { ToastService, AngularToastifyModule } from "angular-toastify";
 import { Notifications } from "../../../../enums/notifications.enum";
 import { ApiCallResult } from "../../../../types/auth";
+import { Activity, Gender, Goal } from "../../../../types/user";
+import { SelectValue } from "../../../../types/ui";
+import { MatSelectModule } from "@angular/material/select";
+import { Activities, Genders, Goals } from "../../../../enums/users.enum";
+import { createSelectValuesFromEnum } from "../../../../utils/ui-utils";
 
 export interface AuthDialogData {
+  // form control
+  displayLoginForm: boolean;
+  // login only
   username: string;
   password: string;
-  displayLoginForm: boolean;
+  // + register
+  email?: string;
+  repeatPassword?: string;
+  gender?: Gender;
+  country?: string;
+  city?: string;
+  preferedActivities?: Activity[];
+  goals?: Goal[];
+  age?: number;
 }
 
 @Component({
@@ -22,6 +38,7 @@ export interface AuthDialogData {
   templateUrl: "auth-dialog.component.html",
   standalone: true,
   imports: [
+    MatSelectModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -36,9 +53,14 @@ export interface AuthDialogData {
   ],
 })
 export class AuthDialog {
+  // login
   usernameFormContorl = new FormControl("", [Validators.required]);
   passwordFormControl = new FormControl("", [Validators.required]);
-  displayToast = false;
+  // + register
+
+  goalsOptions: SelectValue[] = createSelectValuesFromEnum(Goals);
+  genderOptions: SelectValue[] = createSelectValuesFromEnum(Genders);
+  preferedActivitiesOptions: SelectValue[] = createSelectValuesFromEnum(Activities);
 
   constructor(public dialogRef: MatDialogRef<AuthDialog>, @Inject(MAT_DIALOG_DATA) public data: AuthDialogData, private toastService: ToastService) {}
 
