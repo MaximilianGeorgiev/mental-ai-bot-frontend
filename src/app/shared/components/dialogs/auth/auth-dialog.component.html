@@ -4,8 +4,8 @@
   <div mat-dialog-content>
     <mat-form-field>
       <mat-label>Username</mat-label>
-      <input matInput [(ngModel)]="data.username" [formControl]="usernameFormContorl" />
-      @if (usernameFormContorl.hasError('required')) {
+      <input matInput [(ngModel)]="data.username" [formControl]="usernameFormControl" />
+      @if (usernameFormControl.hasError('required')) {
       <mat-error>This field is required</mat-error>
       }
     </mat-form-field>
@@ -29,19 +29,31 @@
     <div mat-dialog-content>
       <mat-form-field>
         <mat-label>E-mail address</mat-label>
-        <input matInput [(ngModel)]="data.email" />
+        <input matInput [(ngModel)]="data.email" [formControl]="emailFormControl" />
+        @if (emailFormControl.hasError('required')) {
+        <mat-error>This field is required</mat-error>
+        }
       </mat-form-field>
       <mat-form-field>
         <mat-label>Username</mat-label>
-        <input matInput [(ngModel)]="data.username" />
+        <input matInput [(ngModel)]="data.username" [formControl]="usernameFormControl" />
+        @if (usernameFormControl.hasError('required')) {
+        <mat-error>This field is required</mat-error>
+        }
       </mat-form-field>
       <mat-form-field>
         <mat-label>Password</mat-label>
-        <input matInput [(ngModel)]="data.password" />
+        <input matInput [(ngModel)]="data.password" [formControl]="passwordFormControl" />
+        @if (passwordFormControl.hasError('required')) {
+        <mat-error>This field is required</mat-error>
+        }
       </mat-form-field>
       <mat-form-field>
         <mat-label>Repeat password</mat-label>
-        <input matInput [(ngModel)]="data.repeatPassword" />
+        <input matInput [(ngModel)]="data.repeatPassword" [formControl]="repeatPasswordFormControl" />
+        @if (repeatPasswordFormControl.hasError('required')) {
+        <mat-error>This field is required</mat-error>
+        }
       </mat-form-field>
       <mat-form-field>
         <mat-label>Country</mat-label>
@@ -57,28 +69,37 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Desired goals</mat-label>
-        <mat-select multiple>
+        <mat-select multiple [formControl]="goalsFormControl">
           @for (goal of goalsOptions; track goal) {
           <mat-option [value]="goal.value">{{ goal.displayValue }}</mat-option>
           }
         </mat-select>
+        @if (goalsFormControl.hasError('required')) {
+        <mat-error>This field is required</mat-error>
+        }
       </mat-form-field>
       <mat-form-field>
         <mat-label>Gender</mat-label>
-        <mat-select>
+        <mat-select [formControl]="genderFormControl">
           <mat-option></mat-option>
           @for (gender of genderOptions; track gender) {
           <mat-option [value]="gender.value">{{ gender.displayValue }}</mat-option>
           }
         </mat-select>
+        @if (genderFormControl.hasError('required')) {
+        <mat-error>This field is required</mat-error>
+        }
       </mat-form-field>
       <mat-form-field>
         <mat-label>Prefered activities</mat-label>
-        <mat-select multiple>
+        <mat-select multiple [formControl]="preferedActivitiesFormControl">
           @for (activity of preferedActivitiesOptions; track activity) {
           <mat-option [value]="activity.value">{{ activity.displayValue }}</mat-option>
           }
         </mat-select>
+        @if (preferedActivitiesFormControl.hasError('required')) {
+        <mat-error>This field is required</mat-error>
+        }
       </mat-form-field>
     </div>
     <div mat-dialog-actions>

@@ -54,9 +54,14 @@ export interface AuthDialogData {
 })
 export class AuthDialog {
   // login
-  usernameFormContorl = new FormControl("", [Validators.required]);
+  usernameFormControl = new FormControl("", [Validators.required]);
   passwordFormControl = new FormControl("", [Validators.required]);
   // + register
+  repeatPasswordFormControl = new FormControl("", [Validators.required]);
+  genderFormControl = new FormControl("", [Validators.required]);
+  goalsFormControl = new FormControl("", [Validators.required]);
+  emailFormControl = new FormControl("", [Validators.required]);
+  preferedActivitiesFormControl = new FormControl("", [Validators.required]);
 
   goalsOptions: SelectValue[] = createSelectValuesFromEnum(Goals);
   genderOptions: SelectValue[] = createSelectValuesFromEnum(Genders);
@@ -69,7 +74,7 @@ export class AuthDialog {
   }
 
   onSubmit(): void {
-    if (this.usernameFormContorl.hasError("required") || this.passwordFormControl.hasError("required")) {
+    if (this.usernameFormControl.hasError("required") || this.passwordFormControl.hasError("required")) {
       this.toastService.error(Notifications.INVALID_FORM_REQUIRED);
     } else {
       if (this.data.displayLoginForm) {
