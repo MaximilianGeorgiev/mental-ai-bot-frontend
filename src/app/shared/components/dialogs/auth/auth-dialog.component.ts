@@ -75,7 +75,8 @@ export class AuthDialog {
 
   registerFormHasError(): boolean {
     return (
-      (this.loginFormHasError() || this.repeatPasswordFormControl.hasError("required")) ||
+      this.loginFormHasError() ||
+      this.repeatPasswordFormControl.hasError("required") ||
       this.genderFormControl.hasError("required") ||
       this.goalsFormControl.hasError("required") ||
       this.emailFormControl.hasError("required") ||
@@ -95,14 +96,21 @@ export class AuthDialog {
     } else {
       if (this.data.displayLoginForm) {
         login({ username: this.data.username, password: this.data.password }).then((response: ApiCallResult) => {
-          response.success ? this.toastService.success(Notifications.LOGIN_SUCCESS) : this.toastService.error(Notifications.LOGIN_FAILURE);
+          if (response.success) {
+            this.toastService.success(Notifications.LOGIN_SUCCESS);
+            // safe because the backend stores which bearer token is issued to which user 
+            // and there is a strategy to determine if its indeed the owner of the token, so identity cannot be hijacked
+            localStorage.setItem("loggedUserId", (response.message as { loggedUser: string }).loggedUser);
+          } else {
+            this.toastService.error(Notifications.LOGIN_FAILURE);
+          }
         });
       }
 
       let payload: LoginPayload | RegisterPayload = {
         username: this.data.username,
         password: this.data.password,
-      }
+      };
 
       if (!this.data.displayLoginForm) {
         if (this.data.password !== this.data.repeatPassword) {
@@ -119,7 +127,7 @@ export class AuthDialog {
           preferedActivities: this.data.preferedActivities,
           goals: this.data.goals,
           age: this.data?.age,
-        }
+        };
       }
 
       if (this.data.displayLoginForm) {

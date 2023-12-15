@@ -17,6 +17,7 @@ const LOGOUT_ICON_URL = `<svg xmlns="http://www.w3.org/2000/svg" height="16" wid
 })
 export class DashboardComponent {
   isPanelOpen = false;
+  hasSelfCarePlan = false;
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIconLiteral('user', sanitizer.bypassSecurityTrustHtml(USER_ICON_URL));
