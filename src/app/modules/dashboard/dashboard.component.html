@@ -1,0 +1,73 @@
+<style>
+  .main {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: inherit;
+  }
+
+  .angular-logo {
+    max-width: 9.2rem;
+  }
+
+  .content {
+    display: flex;
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+</style>
+<p>
+  <mat-toolbar>
+    <span>Mental assistance platform</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button aria-label="My profile">
+      <mat-icon svgIcon="user">My profile</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Logout">
+      <mat-icon svgIcon="logout">Logout</mat-icon>
+    </button>
+  </mat-toolbar>
+</p>
+<h1 class="md-display-2 white-text main content">Your self care plan</h1>
+<mat-card>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title> This is the expansion title </mat-panel-title>
+        <mat-panel-description> This is a summary of the content </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Self aware panel </mat-panel-title>
+        <mat-panel-description> Currently I am {{ isPanelOpen ? "open" : "closed" }} </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>I'm visible because I am open</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>
+<h1 class="md-display-2 white-text main content">Your previous chats</h1>
+<mat-card>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title> This is the expansion title </mat-panel-title>
+        <mat-panel-description> This is a summary of the content </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Self aware panel </mat-panel-title>
+        <mat-panel-description> Currently I am {{ isPanelOpen ? "open" : "closed" }} </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>I'm visible because I am open</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>

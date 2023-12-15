@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { HomepageComponent } from './modules/homepage/components/homepage.component';
 
 
@@ -13,4 +13,11 @@ import { HomepageComponent } from './modules/homepage/components/homepage.compon
 })
 export class AppComponent {
   title = 'mental-ai-bot';
+
+  constructor(private router: Router) {
+  }
+
+  isVisible() {
+    return this.router.url === "/";
+  }
 }
