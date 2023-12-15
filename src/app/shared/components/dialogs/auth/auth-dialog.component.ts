@@ -9,7 +9,7 @@ import { login, register } from "../../../../modules/api/auth";
 import { ReactiveFormsModule } from "@angular/forms";
 import { ToastService, AngularToastifyModule } from "angular-toastify";
 import { Notifications } from "../../../../enums/notifications.enum";
-import { ApiCallResult } from "../../../../types/auth";
+import { ApiCallResult, LoginPayload, RegisterPayload } from "../../../../types/auth";
 import { Activity, Gender, Goal } from "../../../../types/user";
 import { SelectValue } from "../../../../types/ui";
 import { MatSelectModule } from "@angular/material/select";
@@ -69,12 +69,28 @@ export class AuthDialog {
 
   constructor(public dialogRef: MatDialogRef<AuthDialog>, @Inject(MAT_DIALOG_DATA) public data: AuthDialogData, private toastService: ToastService) {}
 
+  loginFormHasError(): boolean {
+    return this.usernameFormControl.hasError("required") || this.passwordFormControl.hasError("required");
+  }
+
+  registerFormHasError(): boolean {
+    return (
+      (this.loginFormHasError() || this.repeatPasswordFormControl.hasError("required")) ||
+      this.genderFormControl.hasError("required") ||
+      this.goalsFormControl.hasError("required") ||
+      this.emailFormControl.hasError("required") ||
+      this.preferedActivitiesFormControl.hasError("required")
+    );
+  }
+
   onClose(): void {
     this.dialogRef.close();
   }
 
   onSubmit(): void {
-    if (this.usernameFormControl.hasError("required") || this.passwordFormControl.hasError("required")) {
+    const formIssues = this.data.displayLoginForm ? this.loginFormHasError() : this.registerFormHasError();
+
+    if (formIssues) {
       this.toastService.error(Notifications.INVALID_FORM_REQUIRED);
     } else {
       if (this.data.displayLoginForm) {
@@ -82,7 +98,39 @@ export class AuthDialog {
           response.success ? this.toastService.success(Notifications.LOGIN_SUCCESS) : this.toastService.error(Notifications.LOGIN_FAILURE);
         });
       }
-      this.data.displayLoginForm ? login({ username: this.data.username, password: this.data.password }) : undefined;
+
+      let payload: LoginPayload | RegisterPayload = {
+        username: this.data.username,
+        password: this.data.password,
+      }
+
+      if (!this.data.displayLoginForm) {
+        if (this.data.password !== this.data.repeatPassword) {
+          this.toastService.error(Notifications.PASSWORD_MISMATCH);
+          return;
+        }
+
+        payload = {
+          ...payload,
+          email: this.data.email,
+          gender: this.data.gender,
+          country: this.data?.country,
+          city: this.data?.city,
+          preferedActivities: this.data.preferedActivities,
+          goals: this.data.goals,
+          age: this.data?.age,
+        }
+      }
+
+      if (this.data.displayLoginForm) {
+        login(payload).then((response: ApiCallResult) => {
+          response.success ? this.toastService.success(Notifications.LOGIN_SUCCESS) : this.toastService.error(Notifications.LOGIN_FAILURE);
+        });
+      } else {
+        register(payload as RegisterPayload).then((response: ApiCallResult) => {
+          response.success ? this.toastService.success(Notifications.REGISTER_SUCCESS) : this.toastService.error(Notifications.REGISTER_FAILURE);
+        });
+      }
     }
   }
 }

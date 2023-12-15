@@ -12,10 +12,7 @@ export const login = async (payload: LoginPayload) => {
     } = await axios({
       method: "POST",
       url: `${API_URL}/auth/login`,
-      data: {
-        username: payload.username,
-        password: payload.password,
-      },
+      data: payload,
     });
     
     return { success: status === HttpStatusCode.Created ? true : false, message: accessToken ?? "Incorrect login credentials." };
@@ -24,4 +21,19 @@ export const login = async (payload: LoginPayload) => {
   }
 };
 
-export const register = async (payload: RegisterPayload) => {};
+export const register = async (payload: RegisterPayload) => {
+  try {
+    const {
+      data,
+      status,
+    } = await axios({
+      method: "POST",
+      url: `${API_URL}/users`,
+      data: payload,
+    });
+    
+    return { success: status === HttpStatusCode.Created ? true : false, message: data };
+  } catch {
+    return { success: false, message: "Unable to register." };
+  }
+};
