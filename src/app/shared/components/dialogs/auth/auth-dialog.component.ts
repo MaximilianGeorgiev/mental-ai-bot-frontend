@@ -9,7 +9,7 @@ import { login, register } from "../../../../modules/api/auth";
 import { ReactiveFormsModule } from "@angular/forms";
 import { ToastService, AngularToastifyModule } from "angular-toastify";
 import { Notifications } from "../../../../enums/notifications.enum";
-import { ApiCallResult, LoginPayload, RegisterPayload } from "../../../../types/auth";
+import { ApiCallResult, LoginPayload, RegisterPayload } from "../../../../types/api";
 import { Activity, Gender, Goal } from "../../../../types/user";
 import { SelectValue } from "../../../../types/ui";
 import { MatSelectModule } from "@angular/material/select";

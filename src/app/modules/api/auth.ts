@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LoginPayload, RegisterPayload } from "../../types/auth";
+import { LoginPayload, RegisterPayload } from "../../types/api";
 import { HttpStatusCode } from "@angular/common/http";
 
 const API_URL = "http://localhost:3000"; // use env

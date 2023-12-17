@@ -1,3 +1,4 @@
+import { DailyTask } from "./plans";
 import { Activity, Gender, Goal } from "./user";
 
 export interface LoginPayload {
@@ -15,7 +16,20 @@ export interface RegisterPayload extends LoginPayload {
   age?: number;
 }
 
+export interface GetQueryParams {
+  searchByProperty: string;
+  searchValue: string;
+  findMany: boolean;
+}
+
 export interface ApiCallResult {
   success: boolean;
   message: Object;
 }
+
+export interface SelfCarePlanPayload {
+  description: string;
+  targetDate: Date;
+  dailyTasks: DailyTask[];
+  userId: string;
+};
