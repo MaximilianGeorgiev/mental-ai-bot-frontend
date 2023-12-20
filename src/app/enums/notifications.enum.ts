@@ -5,4 +5,7 @@ export enum Notifications {
     REGISTER_SUCCESS = "Registration successful.",
     REGISTER_FAILURE = "Unable to register. Please double check your information.",
     PASSWORD_MISMATCH = "Password do not match.",
+    CREATEPLAN_SUCCESS = "Self care plan successfully created.",
+    CREATEPLAN_FAILURE = "Self care plan creation failed.",
+    CREATEPLAN_NOT_APPROVED = "You cannot create the plan before approving the generated activities.",
 };
