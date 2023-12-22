@@ -98,9 +98,13 @@ export class AuthDialog {
         login({ username: this.data.username, password: this.data.password }).then((response: ApiCallResult) => {
           if (response.success) {
             this.toastService.success(Notifications.LOGIN_SUCCESS);
+
+            const { loggedUser, accessToken } = response.message as { loggedUser: string, accessToken: string};
+
             // safe because the backend stores which bearer token is issued to which user 
             // and there is a strategy to determine if its indeed the owner of the token, so identity cannot be hijacked
-            localStorage.setItem("loggedUser", JSON.stringify((response.message as { loggedUser: string }).loggedUser));
+            localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+            localStorage.setItem("token", accessToken);
           } else {
             this.toastService.error(Notifications.LOGIN_FAILURE);
           }

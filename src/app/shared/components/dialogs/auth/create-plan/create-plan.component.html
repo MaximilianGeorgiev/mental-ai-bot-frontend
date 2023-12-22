@@ -17,11 +17,15 @@
       </ng-template>
       <mat-form-field>
         <mat-label>End date</mat-label>
-        <input type="Date" matInput [(ngModel)]="endDate" [formControl]="endDateFormControl" />
+        <input matInput [matDatepicker]="picker" [(ngModel)]="endDate" [formControl]="endDateFormControl">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
         @if (endDateFormControl.hasError('required')) {
-        <mat-error>This field is required</mat-error>
-        }
+          <mat-error>This field is required</mat-error>
+          }
       </mat-form-field>
+      
       <mat-form-field>
         <mat-label>Intensity</mat-label>
         <mat-select [formControl]="intensityFormControl" [(ngModel)]="intensity">
@@ -33,9 +37,12 @@
         <mat-error>This field is required</mat-error>
         }
       </mat-form-field>
+      <ng-template *ngIf="activitiesGenerated.length > 0">
+        <p>The generated self care plan consists of:</p>
+      </ng-template>
       <div mat-dialog-actions>
         <button mat-button mat-dialog-close>Close</button>
-        <button mat-button cdkFocusInitial>Generate</button>
+        <button mat-button cdkFocusInitial (click)="generateSelfCarePlanActivities()">Generate</button>
       </div>
     </div>
   </div>

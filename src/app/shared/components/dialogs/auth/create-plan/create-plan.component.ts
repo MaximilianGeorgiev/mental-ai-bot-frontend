@@ -16,6 +16,8 @@ import { find as findActivityProperties } from "../../../../../modules/api/activ
 import { DailyTask } from "../../../../../types/plans";
 import { Activity } from "../../../../../types/user";
 import { create as createPlan } from "../../../../../modules/api/plans";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatDatepickerModule } from "@angular/material/datepicker";
 
 export interface CreatePlanDialogData {
   intensity: "light" | "moderate" | "intense";
@@ -28,6 +30,8 @@ export interface CreatePlanDialogData {
   templateUrl: "create-plan.component.html",
   standalone: true,
   imports: [
+    MatNativeDateModule,
+    MatDatepickerModule,
     MatSelectModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -41,6 +45,7 @@ export interface CreatePlanDialogData {
     CommonModule,
     AngularToastifyModule,
   ],
+  providers: [MatDatepickerModule, MatNativeDateModule]
 })
 export class CreatePlanDialog {
   intensity: "light" | "moderate" | "intense" = "moderate";
@@ -70,11 +75,16 @@ export class CreatePlanDialog {
       return;
     }
 
-    const userPreferedActivities = JSON.parse(localStorage.getItem("loggedUser")!).preferedActivities;
+    const userPreferedActivities = JSON.parse(localStorage.getItem("loggedUser")!)._doc.preferedActivities;
+
+    console.log("test " + JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")!)._doc))
 
     if (!userPreferedActivities) {
       this.activitiesNotSpecified = true;
+      return;
     }
+
+    console.log("do tuk")
 
     let dailyTasks: DailyTask[] = [];
     let preferedActivitiesIterated = 0;
@@ -109,7 +119,7 @@ export class CreatePlanDialog {
         targetDate: this.endDate,
         dailyTasks: this.activitiesGenerated as DailyTask[],
         userId: JSON.parse(localStorage.getItem("loggedUser")!)._id,
-      }
+      };
 
       const { success } = await createPlan(selfCarePlan);
 
@@ -118,7 +128,6 @@ export class CreatePlanDialog {
       } else {
         this.toastService.error(Notifications.CREATEPLAN_FAILURE);
       }
-
     } else {
       this.toastService.error(Notifications.CREATEPLAN_NOT_APPROVED);
     }

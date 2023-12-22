@@ -8,6 +8,9 @@ export const find = async ({ searchByProperty, searchValue, findMany }: GetQuery
     const { status, data } = await axios({
       method: "GET",
       url: `${API_URL}/activities/${searchByProperty}/${searchValue}/?many=${findMany}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
     });
 
     return { success: status === HttpStatusCode.Created ? true : false, message: data };
