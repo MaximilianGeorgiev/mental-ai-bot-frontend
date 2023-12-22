@@ -34,17 +34,23 @@
       </mat-form-field>
 
       <div *ngIf="activitiesGenerated.length > 0">
-        <p>The generated activities are:</p>
+        <p>You can discard and regenerate the plan or approve it. The generated activities are:</p>
         <ul *ngFor="let activity of activitiesGenerated">
           <li>Activity: {{ activity!.activity }}</li>
           <li>Description: {{ activity!.description }}</li>
           <li>Daily progress: {{ activity!.metricQuantity }} {{ activity!.metric }}</li>
         </ul>
+        <button mat-icon-button aria-label="Discard" (click)="generateSelfCarePlanActivities(true)">
+          <mat-icon svgIcon="discard">Discard</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Approve">
+          <mat-icon svgIcon="approve">Approve</mat-icon>
+        </button>
       </div>
 
       <div mat-dialog-actions>
         <button mat-button mat-dialog-close>Close</button>
-        <button mat-button cdkFocusInitial (click)="generateSelfCarePlanActivities()">Generate</button>
+        <button *ngIf="activitiesGenerated.length === 0" mat-button cdkFocusInitial (click)="generateSelfCarePlanActivities()">Generate</button>
       </div>
     </div>
   </div>

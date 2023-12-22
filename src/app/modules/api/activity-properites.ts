@@ -18,3 +18,19 @@ export const find = async ({ searchByProperty, searchValue, findMany }: GetQuery
     return { success: false, message: "Unable to fetch self care plans." };
   }
 };
+
+export const findAll = async () => {
+  try {
+    const { status, data } = await axios({
+      method: "GET",
+      url: `${API_URL}/activities/`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    });
+
+    return { success: status === HttpStatusCode.Ok ? true : false, message: data };
+  } catch {
+    return { success: false, message: "Unable to fetch self care plans." };
+  }
+};
