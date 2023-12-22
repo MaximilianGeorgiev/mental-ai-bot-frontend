@@ -1,4 +1,4 @@
-export enum TaskIntensity {
+export enum TaskIntensities {
     LIGHT = "Light",
     MODERATE = "Moderate",
     INTENSE = "Intense",

@@ -13,7 +13,7 @@ export const find = async ({ searchByProperty, searchValue, findMany }: GetQuery
       }
     });
 
-    return { success: status === HttpStatusCode.Created ? true : false, message: data };
+    return { success: status === HttpStatusCode.Created ? true : false, message: findMany ? data : data[0] };
   } catch {
     return { success: false, message: "Unable to fetch self care plans." };
   }

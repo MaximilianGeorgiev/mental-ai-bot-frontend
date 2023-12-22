@@ -10,10 +10,10 @@ import { ToastService, AngularToastifyModule } from "angular-toastify";
 import { Notifications } from "../../../../../enums/notifications.enum";
 import { MatSelectModule } from "@angular/material/select";
 import { SelectValue } from "../../../../../types/ui";
-import { TaskIntensity } from "../../../../../enums/plans.enum";
+import { TaskIntensities } from "../../../../../enums/plans.enum";
 import { createSelectValuesFromEnum } from "../../../../../utils/ui-utils";
 import { find as findActivityProperties } from "../../../../../modules/api/activity-properites";
-import { DailyTask } from "../../../../../types/plans";
+import { DailyTask, TaskIntensity } from "../../../../../types/plans";
 import { Activity } from "../../../../../types/user";
 import { create as createPlan } from "../../../../../modules/api/plans";
 import { MatNativeDateModule } from "@angular/material/core";
@@ -45,13 +45,13 @@ export interface CreatePlanDialogData {
     CommonModule,
     AngularToastifyModule,
   ],
-  providers: [MatDatepickerModule, MatNativeDateModule]
+  providers: [MatDatepickerModule, MatNativeDateModule],
 })
 export class CreatePlanDialog {
-  intensity: "light" | "moderate" | "intense" = "moderate";
+  intensity = TaskIntensities.MODERATE;
   endDate: Date = new Date();
   activitiesNotSpecified: boolean = false;
-  taskIntensityOptions: SelectValue[] = createSelectValuesFromEnum(TaskIntensity);
+  taskIntensityOptions: SelectValue[] = createSelectValuesFromEnum(TaskIntensities);
   activitiesGenerated: Partial<DailyTask[]> = [];
   activitiesApproved: boolean = false;
 
@@ -77,29 +77,33 @@ export class CreatePlanDialog {
 
     const userPreferedActivities = JSON.parse(localStorage.getItem("loggedUser")!)._doc.preferedActivities;
 
-    console.log("test " + JSON.stringify(JSON.parse(localStorage.getItem("loggedUser")!)._doc))
-
     if (!userPreferedActivities) {
       this.activitiesNotSpecified = true;
       return;
     }
-
-    console.log("do tuk")
 
     let dailyTasks: DailyTask[] = [];
     let preferedActivitiesIterated = 0;
 
     // Fetch additional info for the activities
     for await (const activity of userPreferedActivities) {
-      if (preferedActivitiesIterated > 2) return; // generate a plan with 2 daily tasks for now
+      if (preferedActivitiesIterated > 2) break; // generate a plan with 2 daily tasks for now
 
       const { message: activityInfo } = await findActivityProperties({ searchByProperty: "activityName", searchValue: activity, findMany: false });
 
+      console.log("act" + JSON.stringify(activityInfo));
       dailyTasks.push({
         activity: activityInfo.activityName as Activity,
         description: activityInfo.benefits,
         metric: activityInfo.metric,
-        metricQuantity: 155,
+        metricQuantity:
+          this.intensity === TaskIntensities.LIGHT
+            ? activityInfo.metricQuantityLight
+            : this.intensity === TaskIntensities.MODERATE
+            ? activityInfo.metricQuantityModerate
+            : this.intensity === TaskIntensities.INTENSE
+            ? activityInfo.metricQuantityIntense
+            : "",
         dateUpdated: new Date(),
         percentCompleted: 0,
       });

@@ -1,4 +1,4 @@
-import { ActivityMetrics } from "../enums/plans.enum";
+import { ActivityMetrics, TaskIntensities } from "../enums/plans.enum";
 import { Activity } from "./user";
 
 export interface DailyTask {
@@ -11,3 +11,4 @@ export interface DailyTask {
 }
 
 export type ActivityMetric = keyof typeof ActivityMetrics;
+export type TaskIntensity = keyof typeof TaskIntensities;
