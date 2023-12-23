@@ -10,5 +10,12 @@ export interface DailyTask {
   metricQuantity: number;
 }
 
+export interface SelfCarePlan {
+  description: string;
+  targetDate: Date;
+  dailyTasks: DailyTask[];
+  userId: string;
+};
+
 export type ActivityMetric = keyof typeof ActivityMetrics;
 export type TaskIntensity = keyof typeof TaskIntensities;
