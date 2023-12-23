@@ -8,4 +8,6 @@ export enum Notifications {
     CREATEPLAN_SUCCESS = "Self care plan successfully created.",
     CREATEPLAN_FAILURE = "Self care plan creation failed.",
     CREATEPLAN_NOT_APPROVED = "You cannot create the plan before approving the generated activities.",
+    CREATEPLAN_ACTIVITIES_GENERATED = "Proposed activities generated.",
+    CREATEPLAN_ACTIVITIES_REGENERATED = "Regenerated other proposed activities.",
 };

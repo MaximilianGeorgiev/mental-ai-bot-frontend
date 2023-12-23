@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import {  Component } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import { FormControl, FormsModule, Validators } from "@angular/forms";
@@ -124,7 +124,7 @@ export class CreatePlanDialog {
     } else {
       // generate random plan
       const randomActivities = await selectRandomActivities();
-      
+
       if (randomActivities.length > 0) {
         for (const activityInfo of randomActivities) {
           dailyTasks.push({
@@ -146,29 +146,28 @@ export class CreatePlanDialog {
       }
     }
 
+    this.toastService.success(disregardPreferences ? Notifications.CREATEPLAN_ACTIVITIES_REGENERATED : Notifications.CREATEPLAN_ACTIVITIES_GENERATED);
     this.activitiesGenerated = [...dailyTasks];
   }
 
   async generateSelfCarePlan() {
-    if (this.activitiesApproved) {
-      let selfCarePlan = {
-        description: "",
-        progress: 0,
-        isCompleted: false,
-        targetDate: this.endDate,
-        dailyTasks: this.activitiesGenerated as DailyTask[],
-        userId: JSON.parse(localStorage.getItem("loggedUser")!)._id,
-      };
+    let selfCarePlan = {
+      description: "A personalized self care plan which will help you improve your overall physical and mental health.",
+      progress: 0,
+      isCompleted: false,
+      targetDate: this.endDate,
+      dailyTasks: this.activitiesGenerated as DailyTask[],
+      userId: await JSON.parse(localStorage.getItem("loggedUser")!)._doc._id,
+    };
 
-      const { success } = await createPlan(selfCarePlan);
 
-      if (success) {
-        this.toastService.success(Notifications.CREATEPLAN_SUCCESS);
-      } else {
-        this.toastService.error(Notifications.CREATEPLAN_FAILURE);
-      }
+    const { success } = await createPlan(selfCarePlan);
+
+    if (success) {
+      this.toastService.success(Notifications.CREATEPLAN_SUCCESS);
+      this.onClose();
     } else {
-      this.toastService.error(Notifications.CREATEPLAN_NOT_APPROVED);
+      this.toastService.error(Notifications.CREATEPLAN_FAILURE);
     }
   }
 }

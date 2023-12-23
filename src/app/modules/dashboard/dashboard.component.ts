@@ -34,7 +34,7 @@ export class DashboardComponent {
   async ngOnInit() {
     const queryParams = {
       searchByProperty: "userId",
-      searchValue: JSON.parse(localStorage.getItem("loggedUser")!)._id,
+      searchValue: JSON.parse(localStorage.getItem("loggedUser")!)._doc._id,
       findMany: true,
     };
 
