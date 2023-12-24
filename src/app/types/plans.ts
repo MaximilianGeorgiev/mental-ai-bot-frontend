@@ -11,11 +11,13 @@ export interface DailyTask {
 }
 
 export interface SelfCarePlan {
+  _id?: string;
   description: string;
   targetDate: Date;
+  progress: number;
   dailyTasks: DailyTask[];
   userId: string;
-};
+}
 
 export type ActivityMetric = keyof typeof ActivityMetrics;
 export type TaskIntensity = keyof typeof TaskIntensities;

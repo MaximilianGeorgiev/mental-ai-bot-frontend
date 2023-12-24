@@ -40,13 +40,13 @@
       <mat-expansion-panel *ngFor="let plan of userPlans" (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">
         <mat-expansion-panel-header>
           <mat-panel-title>Plan №1</mat-panel-title>
-          <mat-panel-description> Progress: 55%% </mat-panel-description>
+          <mat-panel-description> Progress: {{ plan.progress }}%</mat-panel-description>
         </mat-expansion-panel-header>
         <div style="display: flex; width: 100%;" *ngFor="let task of plan.dailyTasks">
           <p style="flex: 1; align-content: center">{{ task.activity }}</p>
           <p style="flex: 1;">{{ displayTaskProgress(task) }}</p>
           <mat-progress-bar style="flex: 1;" mode="determinate" [value]="task.percentCompleted"></mat-progress-bar>
-          <button mat-icon-button matTooltip="Accent" color="accent">
+          <button mat-icon-button matTooltip="Accent" color="accent" (click)="openDialog('TrackProgress', plan, task)">
             <mat-icon svgIcon="update">Track</mat-icon>
           </button>
         </div>
@@ -56,7 +56,7 @@
   </ng-container>
   <ng-template #elseBlock>
     <h3 class="md-display-2 white-text main content">You have no self-care plans created.</h3>
-    <button mat-icon-button aria-label="Create plan" (click)="openDialog()">
+    <button mat-icon-button aria-label="Create plan" (click)="openDialog('CreatePlan')">
       <mat-icon svgIcon="add">Create</mat-icon>
     </button>
   </ng-template>

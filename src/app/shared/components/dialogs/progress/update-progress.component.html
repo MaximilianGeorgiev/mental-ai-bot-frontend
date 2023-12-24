@@ -1,0 +1,39 @@
+<style>
+.example-margin {
+    margin: 0 10px;
+  }
+</style>
+
+<div>
+    <div>
+      <h1 mat-dialog-title>Submit progress</h1>
+      <div mat-dialog-content>
+        <p>
+          Please note the progress you managed to make today. 
+        </p>
+        <mat-checkbox class="example-margin" [(ngModel)]="trackPreviousDate" ngDefaultControl >Track for a previous day</mat-checkbox>
+        <mat-form-field *ngIf="trackPreviousDate">
+          <mat-label>For date</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="forDate" [formControl]="forDateFormControl" />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          @if (forDateFormControl.hasError('required')) {
+          <mat-error>This field is required</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Progress</mat-label>
+            <input matInput [(ngModel)]="progress" [formControl]="progressFormControl" />
+            @if (progressFormControl.hasError('required')) {
+            <mat-error>This field is required</mat-error>
+            }
+          </mat-form-field>
+        <div mat-dialog-actions>
+          <button mat-button mat-dialog-close>Close</button>
+          <button mat-button cdkFocusInitial (click)="updateProgress()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

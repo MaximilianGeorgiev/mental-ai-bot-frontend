@@ -8,7 +8,8 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { find as findPlans } from "../api/plans";
 import { CommonModule } from "@angular/common";
 import { MatDialog } from "@angular/material/dialog";
-import { CreatePlanDialog } from "../../shared/components/dialogs/auth/create-plan/create-plan.component";
+import { CreatePlanDialog } from "../../shared/components/dialogs/create-plan/create-plan.component";
+import { UpdateProgressDialog } from "../../shared/components/dialogs/progress/update-progress.component";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { DailyTask, SelfCarePlan } from "../../types/plans";
 
@@ -50,8 +51,12 @@ export class DashboardComponent {
     }
   }
 
-  openDialog() {
-    const authDialogRef = this.dialog.open(CreatePlanDialog);
+  openDialog(dialog: "CreatePlan" | "TrackProgress", plan?: SelfCarePlan, taskToUpdate?: DailyTask) {
+    if (dialog === "CreatePlan") {
+      this.dialog.open(CreatePlanDialog);
+    } else if (dialog === "TrackProgress") {
+      this.dialog.open(UpdateProgressDialog, { data: { plan, taskToUpdate } });
+    }
   }
 
   displayTaskProgress({ metricQuantity, metric, percentCompleted }: DailyTask) {
