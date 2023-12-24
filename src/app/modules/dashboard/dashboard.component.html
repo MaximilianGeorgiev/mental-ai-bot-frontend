@@ -37,20 +37,21 @@
 <mat-card>
   <ng-container *ngIf="hasSelfCarePlan; else elseBlock">
     <mat-accordion>
-      <mat-expansion-panel (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">
+      <mat-expansion-panel *ngFor="let plan of userPlans" (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">
         <mat-expansion-panel-header>
-          <mat-panel-title>Plan 1</mat-panel-title>
-          <mat-panel-description> Progress: 24% </mat-panel-description>
+          <mat-panel-title>Plan №1</mat-panel-title>
+          <mat-panel-description> Progress: 55%% </mat-panel-description>
         </mat-expansion-panel-header>
-        <div style="display: flex; width: 100%;">
-          <p style="flex: 1; align-content: center">Going for a run</p>
-          <p style="flex: 1;">20/25 miles</p>
-          <mat-progress-bar style="flex: 1;" mode="determinate" value="40"></mat-progress-bar>
-            <button mat-mini-fab color="primary">
-              <mat-icon>delete</mat-icon>
-            </button>
+        <div style="display: flex; width: 100%;" *ngFor="let task of plan.dailyTasks">
+          <p style="flex: 1; align-content: center">{{ task.activity }}</p>
+          <p style="flex: 1;">{{ displayTaskProgress(task) }}</p>
+          <mat-progress-bar style="flex: 1;" mode="determinate" [value]="task.percentCompleted"></mat-progress-bar>
+          <button mat-icon-button matTooltip="Accent" color="accent">
+            <mat-icon svgIcon="update">Track</mat-icon>
+          </button>
         </div>
       </mat-expansion-panel>
+      
     </mat-accordion>
   </ng-container>
   <ng-template #elseBlock>
