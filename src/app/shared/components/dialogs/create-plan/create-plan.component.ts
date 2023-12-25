@@ -54,10 +54,10 @@ export interface CreatePlanDialogData {
 export class CreatePlanDialog {
   intensity = TaskIntensities.MODERATE;
   endDate: Date = new Date();
-  activitiesNotSpecified: boolean = false;
   taskIntensityOptions: SelectValue[] = createSelectValuesFromEnum(TaskIntensities);
   activitiesGenerated: Partial<DailyTask[]> = [];
   activitiesApproved: boolean = false;
+  userPreferences: Activity[] = [];
 
   endDateFormControl = new FormControl("", [Validators.required]);
   intensityFormControl = new FormControl("", [Validators.required]);
@@ -98,7 +98,6 @@ export class CreatePlanDialog {
       const userPreferedActivities = JSON.parse(localStorage.getItem("loggedUser")!)._doc.preferedActivities;
 
       if (!userPreferedActivities) {
-        this.activitiesNotSpecified = true;
         return;
       }
 
