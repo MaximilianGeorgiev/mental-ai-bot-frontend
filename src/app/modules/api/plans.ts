@@ -37,8 +37,8 @@ export const update = async (payload: SelfCarePlan) => {
       method: "PUT",
       url: `${API_URL}/plans/${payload._id}`,
       data: {
-        databaseColumn: "object",
-        columnValue: payload,
+        column: "object",
+        updateValue: payload,
       },
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`

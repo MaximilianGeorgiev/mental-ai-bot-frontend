@@ -12,5 +12,5 @@ export enum Notifications {
     CREATEPLAN_ACTIVITIES_REGENERATED = "Regenerated other proposed activities.",
     TRACKPROGRESS_INVALID_DATE = "Progress was already tracked for desired date.",
     TRAKCPROGRESS_SUCCESS = "Progress update successfully submitted.",
-    TRACKPROGRESS_FAILURE = "Progress update failed."
+    TRACKPROGRESS_FAILURE = "Progress update failed.",
 };

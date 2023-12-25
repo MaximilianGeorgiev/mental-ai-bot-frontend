@@ -84,24 +84,28 @@ export class UpdateProgressDialog {
     }
 
     this.data.taskToUpdate.dateUpdated = new Date();
-    this.data.taskToUpdate.percentCompleted = (this.progress / metricQuantity ) * 100;
+    this.data.taskToUpdate.percentCompleted += (this.progress / metricQuantity) * 100;
 
     this.data.plan.dailyTasks = [...this.data.plan.dailyTasks.filter((task: DailyTask) => task.activity !== activity), this.data.taskToUpdate];
     this.data.plan.progress = this.calculatePlanUpdatedPercentage(this.data.plan.dailyTasks);
 
+    if (this.data.plan.progress >= 100) {
+      this.data.plan.isCompleted = true;
+    }
+
     const { success } = await updatePlan(this.data.plan);
 
     if (success) {
-        this.toastService.success(Notifications.TRAKCPROGRESS_SUCCESS)
+      this.toastService.success(Notifications.TRAKCPROGRESS_SUCCESS);
     } else {
-        this.toastService.error(Notifications.TRACKPROGRESS_FAILURE);
+      this.toastService.error(Notifications.TRACKPROGRESS_FAILURE);
     }
   }
 
-  calculatePlanUpdatedPercentage(dailyTasks: DailyTask[]) {
+  calculatePlanUpdatedPercentage(dailyTasks: DailyTask[]): number {
     let newPercentage = 0;
 
     dailyTasks.forEach((task: DailyTask) => (newPercentage += task.percentCompleted));
-    return newPercentage;
+    return Number((newPercentage / dailyTasks.length).toFixed(2));
   }
 }

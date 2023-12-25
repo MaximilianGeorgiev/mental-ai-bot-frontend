@@ -11,6 +11,7 @@ export interface DailyTask {
 }
 
 export interface SelfCarePlan {
+  isCompleted: boolean;
   _id?: string;
   description: string;
   targetDate: Date;
