@@ -64,4 +64,9 @@ export class DashboardComponent {
 
     return `${progress}/${metricQuantity} ${metric} (${percentCompleted}%)`;
   }
+
+  displayShortDate(databaseDate: Date) {
+    const date = new Date(databaseDate);
+    return date.toISOString().split("T")[0];
+  }
 }
