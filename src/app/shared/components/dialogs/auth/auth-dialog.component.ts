@@ -15,6 +15,7 @@ import { SelectValue } from "../../../../types/ui";
 import { MatSelectModule } from "@angular/material/select";
 import { Activities, Genders, Goals } from "../../../../enums/users.enum";
 import { createSelectValuesFromEnum } from "../../../../utils/ui-utils";
+import { Router } from "@angular/router";
 
 export interface AuthDialogData {
   // form control
@@ -67,7 +68,7 @@ export class AuthDialog {
   genderOptions: SelectValue[] = createSelectValuesFromEnum(Genders);
   preferedActivitiesOptions: SelectValue[] = createSelectValuesFromEnum(Activities);
 
-  constructor(public dialogRef: MatDialogRef<AuthDialog>, @Inject(MAT_DIALOG_DATA) public data: AuthDialogData, private toastService: ToastService) {}
+  constructor(public dialogRef: MatDialogRef<AuthDialog>, @Inject(MAT_DIALOG_DATA) public data: AuthDialogData, private toastService: ToastService, private router: Router) {}
 
   loginFormHasError(): boolean {
     return this.usernameFormControl.hasError("required") || this.passwordFormControl.hasError("required");
@@ -99,31 +100,29 @@ export class AuthDialog {
           if (response.success) {
             this.toastService.success(Notifications.LOGIN_SUCCESS);
 
-            const { loggedUser, accessToken } = response.message as { loggedUser: string, accessToken: string};
+            const { loggedUser, accessToken } = response.message as { loggedUser: string; accessToken: string };
 
-            // safe because the backend stores which bearer token is issued to which user 
+            // safe because the backend stores which bearer token is issued to which user
             // and there is a strategy to determine if its indeed the owner of the token, so identity cannot be hijacked
             localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
             localStorage.setItem("token", accessToken);
+
+            this.router.navigate(["/dashboard"]);
+            this.onClose();
           } else {
             this.toastService.error(Notifications.LOGIN_FAILURE);
           }
         });
-      }
-
-      let payload: LoginPayload | RegisterPayload = {
-        username: this.data.username,
-        password: this.data.password,
-      };
-
-      if (!this.data.displayLoginForm) {
+      } else {
+        // Register form
         if (this.data.password !== this.data.repeatPassword) {
           this.toastService.error(Notifications.PASSWORD_MISMATCH);
           return;
         }
 
-        payload = {
-          ...payload,
+        const payload = {
+          username: this.data.username,
+          password: this.data.password,
           email: this.data.email,
           gender: this.data.gender,
           country: this.data?.country,
@@ -132,15 +131,12 @@ export class AuthDialog {
           goals: this.data.goals,
           age: this.data?.age,
         };
-      }
 
-      if (this.data.displayLoginForm) {
-        login(payload).then((response: ApiCallResult) => {
-          response.success ? this.toastService.success(Notifications.LOGIN_SUCCESS) : this.toastService.error(Notifications.LOGIN_FAILURE);
-        });
-      } else {
         register(payload as RegisterPayload).then((response: ApiCallResult) => {
-          response.success ? this.toastService.success(Notifications.REGISTER_SUCCESS) : this.toastService.error(Notifications.REGISTER_FAILURE);
+          if (response.success) {
+            this.toastService.success(Notifications.REGISTER_SUCCESS);
+            this.onClose();
+          } else this.toastService.error(Notifications.REGISTER_FAILURE);
         });
       }
     }
