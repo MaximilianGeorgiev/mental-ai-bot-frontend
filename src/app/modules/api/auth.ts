@@ -34,3 +34,27 @@ export const register = async (payload: RegisterPayload) => {
     return { success: false, message: "Unable to register." };
   }
 };
+
+export const isUserLoggedIn = async () => {
+  const loggedUserId = JSON.parse(localStorage.getItem("loggedUser")!)._doc._id;
+  const authToken = localStorage.getItem("token");
+
+  if (!loggedUserId || !authToken) return { success: false };
+
+  try {
+    const { status } = await axios({
+      method: "GET",
+      url: `${API_URL}/authenticated`,
+      data: {
+        id: loggedUserId,
+      },
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      },
+    });
+
+    return { success: status === HttpStatusCode.Ok ? true : false };
+  } catch {
+    return { success: false };
+  }
+};
