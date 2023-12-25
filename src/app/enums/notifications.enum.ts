@@ -10,6 +10,7 @@ export enum Notifications {
     CREATEPLAN_NOT_APPROVED = "You cannot create the plan before approving the generated activities.",
     CREATEPLAN_ACTIVITIES_GENERATED = "Proposed activities generated.",
     CREATEPLAN_ACTIVITIES_REGENERATED = "Regenerated other proposed activities.",
+    CREATEPLAN_ENDDATE = "The date must be set for at least a few days after the current moment.",
     TRACKPROGRESS_INVALID_DATE = "Progress was already tracked for desired date.",
     TRAKCPROGRESS_SUCCESS = "Progress update successfully submitted.",
     TRACKPROGRESS_FAILURE = "Progress update failed.",

@@ -36,7 +36,7 @@ export const register = async (payload: RegisterPayload) => {
 };
 
 export const isUserLoggedIn = async () => {
-  const loggedUserId = JSON.parse(localStorage.getItem("loggedUser")!)._doc._id;
+  const loggedUserId = JSON.parse(localStorage.getItem("loggedUser")!)?._doc?._id;
   const authToken = localStorage.getItem("token");
 
   if (!loggedUserId || !authToken) return { success: false };

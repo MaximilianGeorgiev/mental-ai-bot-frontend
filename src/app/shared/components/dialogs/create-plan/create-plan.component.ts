@@ -85,6 +85,11 @@ export class CreatePlanDialog {
       return;
     }
 
+    if (new Date() > this.endDate) {
+      this.toastService.error(Notifications.CREATEPLAN_ENDDATE);
+      return;
+    }
+
     let dailyTasks: DailyTask[] = [];
     let preferedActivitiesIterated = 0;
 

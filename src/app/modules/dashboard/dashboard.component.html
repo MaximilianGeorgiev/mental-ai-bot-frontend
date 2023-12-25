@@ -28,7 +28,7 @@
     <button mat-icon-button aria-label="My profile">
       <mat-icon svgIcon="user">My profile</mat-icon>
     </button>
-    <button mat-icon-button class="example-icon" aria-label="Logout">
+    <button mat-icon-button class="example-icon" aria-label="Logout" (click)="logout()">
       <mat-icon svgIcon="logout">Logout</mat-icon>
     </button>
   </mat-toolbar>
@@ -57,10 +57,11 @@
   </ng-container>
   <ng-template #elseBlock>
     <h3 class="md-display-2 white-text main content">You have no self-care plans created.</h3>
-    <button mat-icon-button aria-label="Create plan" (click)="openDialog('CreatePlan')">
-      <mat-icon svgIcon="add">Create</mat-icon>
-    </button>
+   
   </ng-template>
+  <button mat-icon-button aria-label="Create plan" (click)="openDialog('CreatePlan')">
+    <mat-icon svgIcon="add">Create</mat-icon>
+  </button>
 </mat-card>
 <h1 class="md-display-2 white-text main content">Your previous chats</h1>
 <mat-card>
