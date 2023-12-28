@@ -26,7 +26,7 @@ const UPDATE_ICON_URL = `<svg xmlns="http://www.w3.org/2000/svg" height="16" wid
   imports: [MatExpansionModule, MatCardModule, MatIconModule, MatButtonModule, MatToolbarModule, CommonModule, MatProgressBarModule],
 })
 export class DashboardComponent {
-  isPanelOpen = false;
+  isPanelOpen = true;
   hasSelfCarePlan = false;
   userPlans: SelfCarePlan[] = [];
 

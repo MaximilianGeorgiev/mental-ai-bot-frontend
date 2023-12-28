@@ -57,9 +57,8 @@
   </ng-container>
   <ng-template #elseBlock>
     <h3 class="md-display-2 white-text main content">You have no self-care plans created.</h3>
-   
   </ng-template>
-  <button mat-icon-button aria-label="Create plan" (click)="openDialog('CreatePlan')">
+  <button style="width: 100%" mat-icon-button aria-label="Create plan" (click)="openDialog('CreatePlan')">
     <mat-icon svgIcon="add">Create</mat-icon>
   </button>
 </mat-card>
@@ -81,4 +80,7 @@
       <p>I'm visible because I am open</p>
     </mat-expansion-panel>
   </mat-accordion>
+  <button style="width: 100%" mat-icon-button aria-label="Create plan" (click)="openDialog('CreatePlan')">
+    <mat-icon svgIcon="add">Create</mat-icon>
+  </button>
 </mat-card>

@@ -1,0 +1,47 @@
+<style>
+  .main {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: inherit;
+  }
+
+  .angular-logo {
+    max-width: 9.2rem;
+  }
+
+  .content {
+    display: flex;
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+</style>
+
+<mat-toolbar>
+  <span>Mental assistance platform</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button aria-label="My profile">
+    <mat-icon svgIcon="user">My profile</mat-icon>
+  </button>
+  <button mat-icon-button class="example-icon" aria-label="Logout">
+    <mat-icon svgIcon="logout">Logout</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div style="height: 75%">
+  <mat-card style="height: 100%">
+    <mat-card-content>Simple card</mat-card-content>
+  </mat-card>
+
+  <div style="display: flex; align-items: flex-end; width: 100%">
+    <mat-form-field style="flex: 1; margin-top: 45px; position: relative">
+      <input matInput placeholder="Enter your message here.." style="width: 100%" />
+      <mat-icon svgIcon="logout" style="cursor: pointer; position: absolute; right: 8px; bottom: 8px"></mat-icon>
+    </mat-form-field>
+  </div>
+</div>
