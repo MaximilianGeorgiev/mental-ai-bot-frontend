@@ -6,5 +6,10 @@ import { ChatComponent } from './modules/chat/chat.component';
 export const routes: Routes = [
     { path: 'dashboard', component: DashboardComponent, canActivate: [GrantDashboardAccessGuard] },
     { path: '', component: DashboardComponent, canActivate: [RedirectLoggedUserGuard] },
-    { path: 'chat', component: ChatComponent},
+    { 
+        path: 'chat',
+        children: [
+           {path : '**' , component: ChatComponent}
+        ]
+     }
 ];

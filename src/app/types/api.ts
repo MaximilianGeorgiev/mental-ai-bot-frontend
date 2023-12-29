@@ -33,3 +33,14 @@ export interface SelfCarePlanPayload {
   dailyTasks: DailyTask[];
   userId: string;
 };
+
+export interface MessagePayload {
+  message: string;
+  conversationId: string;
+}
+
+export interface ConversationPayload {
+  dateCreated: Date;
+  userId?: string;
+  isGuest: boolean;
+}

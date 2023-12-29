@@ -14,4 +14,6 @@ export enum Notifications {
     TRACKPROGRESS_INVALID_DATE = "Progress was already tracked for desired date.",
     TRAKCPROGRESS_SUCCESS = "Progress update successfully submitted.",
     TRACKPROGRESS_FAILURE = "Progress update failed.",
+    LOADCONVERSATION_FAILURE = "Unable to load conversation. Please create a new one.",
+    LOADCONVERSATION_SUCCESS = "Conversation loaded successfully.",
 };
