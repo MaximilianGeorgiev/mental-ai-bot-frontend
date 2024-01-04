@@ -37,6 +37,9 @@ export interface SelfCarePlanPayload {
 export interface MessagePayload {
   message: string;
   conversationId: string;
+  timestamp: Date;
+  type: string;
+  userId?: string;
 }
 
 export interface ConversationPayload {

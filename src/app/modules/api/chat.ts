@@ -7,7 +7,7 @@ export const sendMessage = async (message: MessagePayload) => {
     try {
         const { data, status } = await axios({
           method: "POST",
-          url: `${API_URL}/plans`,
+          url: `${API_URL}/messages`,
           data: message,
         });
     

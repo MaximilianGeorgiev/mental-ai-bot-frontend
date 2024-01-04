@@ -16,4 +16,5 @@ export enum Notifications {
     TRACKPROGRESS_FAILURE = "Progress update failed.",
     LOADCONVERSATION_FAILURE = "Unable to load conversation. Please create a new one.",
     LOADCONVERSATION_SUCCESS = "Conversation loaded successfully.",
+    SENDMESSAGE_ERROR = "Unable to send message.",
 };
