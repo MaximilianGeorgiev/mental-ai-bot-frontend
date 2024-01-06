@@ -1,8 +1,8 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
 <div>
   <div class="actions-container">
-    <custom-ripple class="ripple-component" divText="Generate a personalized self care plan" />
-    <custom-ripple class="ripple-component" divText="Share your troubles and receive advise from the chatbot" />
+    <custom-ripple class="ripple-component" divText="Generate a personalized self care plan" (click)="openDialog(false)"/>
+    <custom-ripple class="ripple-component" divText="Share your troubles and receive advise from the chatbot" (click)="openChat()" />
   </div>
 </div>
 <div class="actions-container">

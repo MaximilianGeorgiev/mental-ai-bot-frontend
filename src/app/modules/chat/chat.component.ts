@@ -78,7 +78,13 @@ export class ChatComponent {
     if (!conversationParamFound) {
       await this.createConversation();
     } else {
-      await this.validateAndSetConversation(conversationParamFound);
+      const { success: setConversationSuccess }  = await this.validateAndSetConversation(conversationParamFound);
+
+      // Failed to fetch conversation ID from url; create new conversation
+      if (!setConversationSuccess) {
+        await this.createConversation();
+        return;
+      }
 
       const { success, message: messagesFound } = await getConversationMessages(this.conversationId);
 
@@ -109,7 +115,7 @@ export class ChatComponent {
     // Either conversation doesn't exist or user is not the owner of that conversation and has no access
     if (!success) {
       this.toast.error(Notifications.LOADCONVERSATION_FAILURE + " " + conversation);
-      return;
+      return { success: false };
     }
 
     this.conversationId = conversationId;
@@ -117,6 +123,8 @@ export class ChatComponent {
 
     this.toast.success(Notifications.LOADCONVERSATION_SUCCESS);
     this.router.navigate(["/chat", conversationId]);
+
+    return { success: true };
   }
 
   async sendMessage() {
@@ -140,5 +148,11 @@ export class ChatComponent {
 
     if (!success) this.toast.error(Notifications.SENDMESSAGE_ERROR);
     else this.conversationMessages.push(createdMessage);
+  }
+
+  logout() {
+    localStorage.removeItem("loggedUser");
+    localStorage.removeItem("token");
+    this.router.navigate([""]);
   }
 }

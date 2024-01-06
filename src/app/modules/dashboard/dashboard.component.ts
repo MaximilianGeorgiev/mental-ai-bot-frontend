@@ -63,7 +63,7 @@ export class DashboardComponent {
   logout() {
     localStorage.removeItem("loggedUser");
     localStorage.removeItem("token");
-    this.router.navigate(["/"]);
+    this.router.navigate([""]);
   }
 
   displayTaskProgress({ metricQuantity, metric, percentCompleted }: DailyTask) {

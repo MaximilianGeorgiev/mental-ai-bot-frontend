@@ -29,26 +29,22 @@
     <mat-icon svgIcon="user">My profile</mat-icon>
   </button>
   <button mat-icon-button class="example-icon" aria-label="Logout">
-    <mat-icon svgIcon="logout">Logout</mat-icon>
+    <mat-icon svgIcon="logout" (click)="logout()">Logout</mat-icon>
   </button>
 </mat-toolbar>
 
 <div style="height: 75%">
-  <mat-card style="height: 100%">
-    <mat-card-content>Simple card</mat-card-content>
-  </mat-card>
-
   <ng-container *ngFor="let message of conversationMessages">
     <mat-card>
       <div>
-        <mat-card-content *ngIf="!guest && username">{{ username }} <mat-icon svgIcon="user">My profile</mat-icon></mat-card-content>
+        <mat-card-content *ngIf="!guest && username"><b>{{ username }}</b> <mat-icon svgIcon="user">My profile</mat-icon></mat-card-content>
       </div>
       <mat-card-content>{{ message.message }}</mat-card-content>
     </mat-card>
     <mat-divider></mat-divider>
     <mat-card>
       <div>
-        <mat-card-content *ngIf="message.response">Bot response</mat-card-content>
+        <mat-card-content *ngIf="message.response"><b>Bot response</b></mat-card-content>
       </div>
       <mat-card-content>{{ message.response }}</mat-card-content>
     </mat-card>
