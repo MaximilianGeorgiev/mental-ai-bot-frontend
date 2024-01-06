@@ -37,7 +37,7 @@
 <mat-card>
   <ng-container *ngIf="hasSelfCarePlan; else elseBlock">
     <mat-accordion>
-      <mat-expansion-panel *ngFor="let plan of userPlans" (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">
+      <mat-expansion-panel *ngFor="let plan of userPlans" (opened)="isPlanPanelOpen = true" (closed)="isPlanPanelOpen = false">
         <mat-expansion-panel-header>
           <mat-panel-title>Plan №1</mat-panel-title>
           <mat-panel-description> Progress: {{ plan.progress }}%</mat-panel-description>
@@ -64,23 +64,33 @@
 </mat-card>
 <h1 class="md-display-2 white-text main content">Your previous chats</h1>
 <mat-card>
-  <mat-accordion>
-    <mat-expansion-panel hideToggle>
-      <mat-expansion-panel-header>
-        <mat-panel-title> This is the expansion title </mat-panel-title>
-        <mat-panel-description> This is a summary of the content </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>This is the primary content of the panel.</p>
-    </mat-expansion-panel>
-    <mat-expansion-panel (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Self aware panel </mat-panel-title>
-        <mat-panel-description> Currently I am {{ isPanelOpen ? "open" : "closed" }} </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>I'm visible because I am open</p>
-    </mat-expansion-panel>
-  </mat-accordion>
-  <button style="width: 100%" mat-icon-button aria-label="Create plan" (click)="openDialog('CreatePlan')">
-    <mat-icon svgIcon="add">Create</mat-icon>
+  <ng-container *ngIf="hasConversations; else elseBlock2">
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let conversation of userConversations" [expanded]="false" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-description> Title: {{ conversation.title }}%</mat-panel-description>
+          <mat-panel-description> Date: {{ displayShortDate(conversation.dateCreated) }}</mat-panel-description>
+          <button mat-icon-button matTooltip="Accent" (click)="openChat(conversation._id)" color="accent">
+            <mat-icon svgIcon="continue-chat">Continue</mat-icon>
+          </button>
+        </mat-expansion-panel-header>
+        
+        <!-- <div style="display: flex; width: 100%;" *ngFor="let task of plan.dailyTasks">
+          <p style="flex: 1; align-content: center">{{ task.activity }}</p>
+          <p style="flex: 1;">{{ displayTaskProgress(task) }}</p>
+          <mat-progress-bar style="flex: 1;" mode="determinate" [value]="task.percentCompleted" [color]="task!.percentCompleted >= 100 ? 'warn' : 'primary'"></mat-progress-bar>
+          <button mat-icon-button matTooltip="Accent" color="accent" (click)="openDialog('TrackProgress', plan, task)" [disabled]="task!.percentCompleted >= 100">
+            <mat-icon svgIcon="update">Track</mat-icon>
+          </button>
+        </div> -->
+      </mat-expansion-panel>
+      
+    </mat-accordion>
+  </ng-container>
+  <ng-template #elseBlock2>
+    <h3 class="md-display-2 white-text main content">You have no previous conversations.</h3>
+  </ng-template>
+  <button style="width: 100%" mat-icon-button aria-label="Create plan" (click)="openChat()">
+    <mat-icon svgIcon="add">Create new conversation</mat-icon>
   </button>
 </mat-card>
