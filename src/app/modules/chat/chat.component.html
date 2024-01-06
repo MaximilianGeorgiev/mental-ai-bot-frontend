@@ -38,6 +38,23 @@
     <mat-card-content>Simple card</mat-card-content>
   </mat-card>
 
+  <ng-container *ngFor="let message of conversationMessages">
+    <mat-card>
+      <div>
+        <mat-card-content *ngIf="!guest && username">{{ username }} <mat-icon svgIcon="user">My profile</mat-icon></mat-card-content>
+      </div>
+      <mat-card-content>{{ message.message }}</mat-card-content>
+    </mat-card>
+    <mat-divider></mat-divider>
+    <mat-card>
+      <div>
+        <mat-card-content *ngIf="message.response">Bot response</mat-card-content>
+      </div>
+      <mat-card-content>{{ message.response }}</mat-card-content>
+    </mat-card>
+    <mat-divider></mat-divider>
+  </ng-container>
+
   <div style="display: flex; align-items: flex-end; width: 100%">
     <mat-form-field style="flex: 1; margin-top: 45px; position: relative">
       <input matInput placeholder="Enter your message here.." style="width: 100%" [(ngModel)]="messageInput" />

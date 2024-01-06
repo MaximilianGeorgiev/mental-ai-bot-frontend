@@ -17,4 +17,5 @@ export enum Notifications {
     LOADCONVERSATION_FAILURE = "Unable to load conversation. Please create a new one.",
     LOADCONVERSATION_SUCCESS = "Conversation loaded successfully.",
     SENDMESSAGE_ERROR = "Unable to send message.",
+    FETCHMESSAGES_ERROR = "Unable to load conversation messages.",
 };

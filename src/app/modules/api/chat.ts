@@ -46,3 +46,19 @@ export const findConversation = async ({ searchByProperty, searchValue, findMany
         return { success: false, message: "Unable to fetch conversations." };
       }
 };
+
+export const getConversationMessages = async(conversationId: string) => {
+  try {
+    const { status, data } = await axios({
+      method: "GET",
+      url: `${API_URL}/messages/conversationId/${conversationId}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    });
+
+    return { success: status === HttpStatusCode.Ok || HttpStatusCode.Ok ? true : false, message: data };
+  } catch {
+    return { success: false, message: "Unable to fetch conversation messages." };
+  }
+};

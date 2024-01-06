@@ -15,14 +15,15 @@ import { DailyTask, SelfCarePlan } from "../../types/plans";
 import { Router, RouterModule } from "@angular/router";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { createConversation, findConversation, sendMessage } from "../api/chat";
+import { createConversation, findConversation, getConversationMessages, sendMessage } from "../api/chat";
 import { HttpStatusCode } from "axios";
 import { ToastService } from "angular-toastify";
 import { Notifications } from "../../enums/notifications.enum";
-import { Conversation } from "../../types/chat";
+import { Conversation, Message } from "../../types/chat";
 import { FormsModule } from "@angular/forms";
+import { MatDividerModule } from "@angular/material/divider";
 
-import { Location } from '@angular/common';
+import { Location } from "@angular/common";
 import { MessagePayload } from "../../types/api";
 
 const USER_ICON_URL = `<svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>`;
@@ -45,6 +46,7 @@ const SEND_ICON_URL = `<svg xmlns="http://www.w3.org/2000/svg" height="16" width
     RouterModule,
     CommonModule,
     MatProgressBarModule,
+    MatDividerModule,
   ],
 })
 export class ChatComponent {
@@ -53,6 +55,8 @@ export class ChatComponent {
   conversationId: string = "";
   loadedConversation: Conversation | null = null;
   guest: boolean = typeof this.userId === "undefined" ? true : false;
+  conversationMessages: Message[] = [];
+  username = JSON.parse(localStorage.getItem("loggedUser")!)?._doc?.username;
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router, private toast: ToastService, private location: Location) {
     iconRegistry.addSvgIconLiteral("user", sanitizer.bypassSecurityTrustHtml(USER_ICON_URL));
@@ -66,7 +70,7 @@ export class ChatComponent {
     let conversationParamFound;
 
     if (routeElements[2]) {
-        conversationParamFound = routeElements[2];
+      conversationParamFound = routeElements[2];
     }
 
     // Conversation can be passed through the route or if not a new conversation has to be created
@@ -75,6 +79,11 @@ export class ChatComponent {
       await this.createConversation();
     } else {
       await this.validateAndSetConversation(conversationParamFound);
+
+      const { success, message: messagesFound } = await getConversationMessages(this.conversationId);
+
+      if (success) this.conversationMessages = messagesFound;
+      else this.toast.error(Notifications.FETCHMESSAGES_ERROR);
     }
   }
 
@@ -90,7 +99,7 @@ export class ChatComponent {
 
     if (success) {
       this.conversationId = createdConversationId;
-      this.router.navigate(['/chat', createdConversationId]);
+      this.router.navigate(["/chat", createdConversationId]);
     }
   }
 
@@ -107,11 +116,10 @@ export class ChatComponent {
     this.loadedConversation = conversation;
 
     this.toast.success(Notifications.LOADCONVERSATION_SUCCESS);
-    this.router.navigate(['/chat', conversationId]);
+    this.router.navigate(["/chat", conversationId]);
   }
 
   async sendMessage() {
-    console.log("umreltak " + this.conversationId)
     let payload: MessagePayload = {
       message: this.messageInput,
       conversationId: this.conversationId,
@@ -125,11 +133,12 @@ export class ChatComponent {
       payload = {
         ...payload,
         userId: loggedUserId,
-      }
+      };
     }
 
-    const { success } = await sendMessage(payload);
+    const { success, message: createdMessage } = await sendMessage(payload);
 
     if (!success) this.toast.error(Notifications.SENDMESSAGE_ERROR);
+    else this.conversationMessages.push(createdMessage);
   }
 }
